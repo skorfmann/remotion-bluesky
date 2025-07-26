@@ -2,6 +2,8 @@ import { AbsoluteFill, useCurrentFrame, useVideoConfig, interpolate, spring, Seq
 import { TransitionSeries, linearTiming, springTiming } from '@remotion/transitions';
 import { fade } from '@remotion/transitions/fade';
 import { wipe } from '@remotion/transitions/wipe';
+import { BlueskyUIDemo } from './BlueskyUIDemo';
+import { BackgroundMusic } from './BackgroundMusic';
 
 // Scene 1: Intro with Bluesky logo and title
 const IntroScene: React.FC = () => {
@@ -306,19 +308,21 @@ const CallToAction: React.FC = () => {
   );
 };
 
+
 export const MyComposition = () => {
   return (
-    <TransitionSeries>
-      <TransitionSeries.Sequence durationInFrames={90}>
+    <AbsoluteFill>
+      <TransitionSeries>
+      <TransitionSeries.Sequence durationInFrames={120}>
         <IntroScene />
       </TransitionSeries.Sequence>
       
       <TransitionSeries.Transition
-        timing={springTiming({ config: { damping: 200 } })}
+        timing={linearTiming({ durationInFrames: 30 })}
         presentation={fade()}
       />
       
-      <TransitionSeries.Sequence durationInFrames={120}>
+      <TransitionSeries.Sequence durationInFrames={150}>
         <WhatIsBluesky />
       </TransitionSeries.Sequence>
       
@@ -327,17 +331,26 @@ export const MyComposition = () => {
         presentation={wipe({ direction: 'from-left' })}
       />
       
-      <TransitionSeries.Sequence durationInFrames={90}>
+      <TransitionSeries.Sequence durationInFrames={120}>
         <DecentralizationScene />
       </TransitionSeries.Sequence>
       
       <TransitionSeries.Transition
-        timing={springTiming({ config: { damping: 200 } })}
+        timing={linearTiming({ durationInFrames: 30 })}
         presentation={fade()}
       />
       
-      <TransitionSeries.Sequence durationInFrames={120}>
+      <TransitionSeries.Sequence durationInFrames={150}>
         <FeaturesScene />
+      </TransitionSeries.Sequence>
+      
+      <TransitionSeries.Transition
+        timing={linearTiming({ durationInFrames: 30 })}
+        presentation={fade()}
+      />
+      
+      <TransitionSeries.Sequence durationInFrames={150}>
+        <BlueskyUIDemo />
       </TransitionSeries.Sequence>
       
       <TransitionSeries.Transition
@@ -345,9 +358,13 @@ export const MyComposition = () => {
         presentation={wipe({ direction: 'from-bottom' })}
       />
       
-      <TransitionSeries.Sequence durationInFrames={90}>
+      <TransitionSeries.Sequence durationInFrames={120}>
         <CallToAction />
       </TransitionSeries.Sequence>
     </TransitionSeries>
+    
+    {/* Background music track */}
+    <BackgroundMusic />
+    </AbsoluteFill>
   );
 };
